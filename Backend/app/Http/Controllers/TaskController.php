@@ -17,7 +17,7 @@ class TaskController extends Controller
         ]);
 
         $task = Task::create([
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
@@ -33,7 +33,8 @@ class TaskController extends Controller
     // Get all tasks for the authenticated user
     public function index(Request $request)
     {
-        $tasks = $request->user()->tasks()->get();
+        $tasks = $request->user()->tasks()->with('user:id,name')->get();
+
         return response()->json($tasks);
     }
 

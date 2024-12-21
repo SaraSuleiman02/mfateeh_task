@@ -16,6 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Task routes
     Route::apiResource('tasks', TaskController::class);
+    Route::post('tasks/create', [TaskController::class,'create']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
