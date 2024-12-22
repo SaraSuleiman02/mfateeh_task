@@ -14,8 +14,13 @@ class Task extends Model
         'title',
         'description',
         'status',
+        'is_deleted',
     ];
 
+    protected $casts = [
+        'is_deleted' => 'boolean',
+    ];
+    
     // A task belongs to a user
     public function user() {
         return $this->belongsTo(User::class);

@@ -46,7 +46,13 @@ class UserController extends Controller
             'role' => $request->role ?? 'user', // Default role is 'user'
         ]);
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        $token = $user->createToken('myToken')->plainTextToken;
+
+        return response()->json([
+            'message' => 'User registered successfully',
+            'token' => $token,
+             'user' => $user
+        ], 201);
     }
 
     public function login(Request $request)

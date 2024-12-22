@@ -38,6 +38,18 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
+    public function getAllTasks(Request $request)
+    {
+        // Fetch all tasks with their associated user details
+        $tasks = Task::with('user:id,name')->where('is_deleted', 0)->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'All tasks retrieved successfully',
+            'tasks' => $tasks,
+        ]);
+    }
+
     // Update an existing task
     public function update(Request $request, $id)
     {
@@ -62,6 +74,20 @@ class TaskController extends Controller
     {
         $task = Task::where('user_id', $request->user()->id)->findOrFail($id);
         $task->delete();
+        return response()->json(['message' => 'Task deleted successfully']);
+    }
+
+    // Admin page Deleting a task (soft delete)
+    public function destroyTasks(Request $request, $id)
+    {
+        $task = Task::find($id);
+
+        // Check if the task exists
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        $task->update(['is_deleted' => 1]);
         return response()->json(['message' => 'Task deleted successfully']);
     }
 }
