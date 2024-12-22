@@ -12,7 +12,6 @@ function AppContent() {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/unAuth" element={<UnAuth />} />
-      {/* Wrap ProtectedRoute with Route and pass element */}
       <Route
         path="/task-management"
         element={
